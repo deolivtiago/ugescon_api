@@ -1,5 +1,8 @@
 # μGesCon API
 
+[![ci](https://github.com/deolivtiago/ugescon_api/actions/workflows/ci.yml/badge.svg)](https://github.com/deolivtiago/ugescon_api/actions/workflows/ci.yml)
+[![coverage](https://coveralls.io/repos/github/deolivtiago/ugescon_api/badge.svg)](https://coveralls.io/github/deolivtiago/ugescon_api)
+
 # Setup
 
 Requirements:
