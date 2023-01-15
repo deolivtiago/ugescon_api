@@ -5,8 +5,8 @@
 Requirements:
 
   * Install `Elixir 1.14.0`
-  * Install `Erlang 25.1`
-  * Install `PostgreSQL 14.6`
+  * Install `Erlang 25.2.2`
+  * Install `PostgreSQL 14.6.1`
 
 To start your Phoenix server:
 

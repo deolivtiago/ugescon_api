@@ -25,3 +25,6 @@ api-*.tar
 # Ignore editor files
 /.vscode/
 /.elixir_ls/
+
+# Ignore environment variables file
+/.env
