@@ -10,6 +10,12 @@ import Config
 config :api,
   ecto_repos: [Api.Repo]
 
+# Configures the repo
+config :api, Api.Repo,
+  migration_primary_key: [type: :binary_id],
+  migration_foreign_key: [type: :binary_id],
+  migration_timestamps: [type: :timestamptz]
+
 # Configures the endpoint
 config :api, ApiWeb.Endpoint,
   url: [host: "localhost"],
