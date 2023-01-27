@@ -54,7 +54,8 @@ defmodule Api.MixProject do
       {:plug_cowboy, "~> 2.6"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.15", only: :test},
-      {:argon2_elixir, "~> 3.0"}
+      {:argon2_elixir, "~> 3.0"},
+      {:tzdata, "~> 1.1"}
     ]
   end
 
