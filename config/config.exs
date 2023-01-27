@@ -32,6 +32,9 @@ config :api, ApiWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :api, Api.Mailer, adapter: Swoosh.Adapters.Local
 
+# Configures the tzdata
+config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
+
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
 
