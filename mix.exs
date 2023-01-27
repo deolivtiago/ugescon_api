@@ -55,7 +55,8 @@ defmodule Api.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.15", only: :test},
       {:argon2_elixir, "~> 3.0"},
-      {:tzdata, "~> 1.1"}
+      {:tzdata, "~> 1.1"},
+      {:ex_machina, "~> 2.7", only: :test}
     ]
   end
 
