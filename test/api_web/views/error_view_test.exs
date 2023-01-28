@@ -6,6 +6,8 @@ defmodule ApiWeb.ErrorViewTest do
   alias ApiWeb.ErrorView
 
   test "renders 500.json" do
-    assert render(ErrorView, "500.json", []) == %{errors: %{detail: "Internal Server Error"}}
+    assert %{success: false, errors: errors} = render(ErrorView, "500.json", [])
+
+    assert errors.detail == "Internal Server Error"
   end
 end
