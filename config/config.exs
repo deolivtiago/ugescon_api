@@ -32,6 +32,11 @@ config :api, ApiWeb.Endpoint,
 # at the `config/runtime.exs`.
 config :api, Api.Mailer, adapter: Swoosh.Adapters.Local
 
+# Configures the Guardian
+config :api, ApiWeb.Auth.Guardian,
+  issuer: "ugescon_api",
+  secret_key: "09i67DUhzmarXHDQHk40pudpWiovobweFzNbr/+wKq8T5aZFJAxLuhFZDC0tqc7n"
+
 # Configures the tzdata
 config :elixir, :time_zone_database, Tzdata.TimeZoneDatabase
 
