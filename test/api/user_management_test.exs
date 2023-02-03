@@ -26,10 +26,18 @@ defmodule Api.UserManagementTest do
   end
 
   describe "get_user/1 returns :ok" do
-    test "when the given id is found" do
-      %{id: id, email: email, name: name} = insert(:user)
+    setup [:insert_user]
 
+    test "when the given id is found", %{user: %{id: id, email: email, name: name}} do
       assert {:ok, %User{} = user} = UserManagement.get_user(id)
+
+      assert user.id == id
+      assert user.email == email
+      assert user.name == name
+    end
+
+    test "when the given email is found", %{user: %{id: id, email: email, name: name}} do
+      assert {:ok, %User{} = user} = UserManagement.get_user(email: email)
 
       assert user.id == id
       assert user.email == email
@@ -46,6 +54,16 @@ defmodule Api.UserManagementTest do
 
       refute changeset.valid?
       assert errors.id == ["not found"]
+    end
+
+    test "when the given email is not found" do
+      email = Faker.Internet.email()
+
+      assert {:error, changeset} = UserManagement.get_user(email: email)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.email == ["not found"]
     end
   end
 
