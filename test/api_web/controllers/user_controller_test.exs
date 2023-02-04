@@ -10,18 +10,14 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "index/2 returns success" do
-    test "with an empty list when there are no users", %{conn: conn} do
-      conn = get(conn, Routes.user_path(conn, :index))
+    setup [:insert_user, :put_auth]
 
-      assert %{"success" => true, "data" => []} = json_response(conn, 200)
-    end
-
-    test "with a list of users when there are users", %{conn: conn} do
-      %{id: id, email: email, name: name} = insert(:user)
+    test "with a list of users when there are users", %{conn: conn, user: user} do
+      %{id: id, email: email, name: name} = user
 
       conn = get(conn, Routes.user_path(conn, :index))
 
-      assert %{"success" => true, "data" => [user]} = json_response(conn, 200)
+      assert %{"success" => true, "data" => [user, _auth_user]} = json_response(conn, 200)
 
       assert user["id"] == id
       assert user["email"] == email
@@ -30,6 +26,8 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "create/2 returns success" do
+    setup [:insert_user, :put_auth]
+
     test "when the user parameters are valid", %{conn: conn} do
       user_params = params_for(:user)
 
@@ -43,6 +41,8 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "create/2 returns error" do
+    setup [:insert_user, :put_auth]
+
     test "when the user parameters are invalid", %{conn: conn} do
       user_params = %{email: "?", name: nil, password: "?"}
 
@@ -57,7 +57,7 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "show/2 returns success" do
-    setup [:insert_user]
+    setup [:insert_user, :put_auth]
 
     test "when the user id is found", %{conn: conn, user: user} do
       conn = get(conn, Routes.user_path(conn, :show, user))
@@ -71,6 +71,8 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "show/2 returns error" do
+    setup [:insert_user, :put_auth]
+
     test "when the user id is not found", %{conn: conn} do
       conn = get(conn, Routes.user_path(conn, :show, @id_not_found))
 
@@ -81,7 +83,7 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "update/2 returns success" do
-    setup [:insert_user]
+    setup [:insert_user, :put_auth]
 
     test "when the user parameters are valid", %{conn: conn, user: user} do
       user_params = params_for(:user)
@@ -97,7 +99,7 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "update/2 returns error" do
-    setup [:insert_user]
+    setup [:insert_user, :put_auth]
 
     test "when the user parameters are invalid", %{conn: conn, user: user} do
       user_params = %{email: "@", name: "?", password: nil}
@@ -113,7 +115,7 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "delete/2 returns success" do
-    setup [:insert_user]
+    setup [:insert_user, :put_auth]
 
     test "when the user is found", %{conn: conn, user: user} do
       conn = delete(conn, Routes.user_path(conn, :delete, user))
@@ -127,6 +129,8 @@ defmodule ApiWeb.UserControllerTest do
   end
 
   describe "delete/2 returns error" do
+    setup [:insert_user, :put_auth]
+
     test "when the user is not found", %{conn: conn} do
       conn = delete(conn, Routes.user_path(conn, :delete, @id_not_found))
 
@@ -140,5 +144,13 @@ defmodule ApiWeb.UserControllerTest do
     :user
     |> insert()
     |> then(&{:ok, user: &1})
+  end
+
+  defp put_auth(%{conn: conn}) do
+    %{token: %{access: token}} = build(:auth)
+
+    conn
+    |> put_req_header("authorization", "Bearer #{token}")
+    |> then(&{:ok, conn: &1})
   end
 end

@@ -16,6 +16,13 @@ defmodule Api.Factories.UserFactory do
           updated_at: DateTime.utc_now()
         }
       end
+
+      def build_and_validate(:user, attrs) when is_map(attrs) do
+        :user
+        |> params_for(attrs)
+        |> User.changeset()
+        |> Ecto.Changeset.apply_changes()
+      end
     end
   end
 end
