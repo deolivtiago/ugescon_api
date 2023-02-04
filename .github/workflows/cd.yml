@@ -1,14 +1,11 @@
-name: ci
+name: cd
 
 on:
   push:
-    branches-ignore: [main]
-
-permissions:
-  contents: read
+    branches: [main]
 
 jobs:
-  build:
+  test:
     name: Build and test
     runs-on: ubuntu-latest
     env:
@@ -74,3 +71,27 @@ jobs:
         run: mix coveralls.github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy:
+    name: Deploy to Gigalixir
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: prod
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - run: sudo pip install gigalixir --ignore-installed six
+      - run: gigalixir login -e "${{ secrets.GIGALIXIR_EMAIL }}" -p "${{ secrets.GIGALIXIR_PASSWORD }}" -y
+      - run: gigalixir git:remote ${{ secrets.GIGALIXIR_APP_NAME }}
+      - run: git push -f gigalixir main
+      - run: mkdir ~/.ssh
+      - run: printf "Host *\n StrictHostKeyChecking no" > ~/.ssh/config
+      - run: echo "${{ secrets.GIGALIXIR_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+      - run: sudo chmod 0600 ~/.ssh/id_rsa
+      - run: gigalixir ps:migrate -a ${{ secrets.GIGALIXIR_APP_NAME }}
