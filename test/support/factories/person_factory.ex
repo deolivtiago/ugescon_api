@@ -2,6 +2,7 @@ defmodule Api.Factories.PersonFactory do
   @moduledoc """
   Generates person data for testing
   """
+  # credo:disable-for-this-file Credo.Check.Design.AliasUsage
   alias Api.Registry.Person
 
   defmacro __using__(_opts) do
