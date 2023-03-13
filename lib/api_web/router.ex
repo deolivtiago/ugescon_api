@@ -20,6 +20,7 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :auth]
 
     resources "/users", UserController, except: [:new, :edit]
+    resources "/persons", PersonController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development
