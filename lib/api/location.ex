@@ -3,6 +3,7 @@ defmodule Api.Location do
   The Location context
   """
   alias Api.Location.Country
+  alias Api.Location.State
 
   @doc """
   Returns a list of countries
@@ -81,4 +82,82 @@ defmodule Api.Location do
 
   """
   defdelegate change_country(country, attrs \\ %{}), to: Country.Change, as: :call
+
+  @doc """
+  Returns a list of states
+
+  ## Examples
+
+      iex> list_states()
+      [%State{}, ...]
+
+  """
+  defdelegate list_states, to: State.List, as: :call
+
+  @doc """
+  Gets a state
+
+  ## Examples
+
+      iex> get_state(value)
+      {:ok, %State{}}
+
+      iex> get_state(bad_value)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate get_state(id), to: State.Get, as: :call
+
+  @doc """
+  Creates a state
+
+  ## Examples
+
+      iex> create_state(%{field: value})
+      {:ok, %State{}}
+
+      iex> create_state(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate create_state(attrs \\ %{}), to: State.Create, as: :call
+
+  @doc """
+  Updates a state
+
+  ## Examples
+
+      iex> update_state(state, %{field: new_value})
+      {:ok, %State{}}
+
+      iex> update_state(state, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate update_state(state, attrs), to: State.Update, as: :call
+
+  @doc """
+  Deletes a state
+
+  ## Examples
+
+      iex> delete_state(state)
+      {:ok, %State{}}
+
+      iex> delete_state(state)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate delete_state(state), to: State.Delete, as: :call
+
+  @doc """
+  Returns a changeset for tracking state changes
+
+  ## Examples
+
+      iex> change_state(state)
+      %Ecto.Changeset{data: %State{}}
+
+  """
+  defdelegate change_state(state, attrs \\ %{}), to: State.Change, as: :call
 end
