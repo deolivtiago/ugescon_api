@@ -1,12 +1,12 @@
-defmodule Api.Location.Update do
+defmodule Api.Location.Country.Create do
   @moduledoc false
   alias Api.Location.Country
   alias Api.Repo
 
   @doc false
-  def call(%Country{} = country, attrs) do
-    country
+  def call(attrs \\ %{}) do
+    %Country{}
     |> Country.changeset(attrs)
-    |> Repo.update()
+    |> Repo.insert()
   end
 end

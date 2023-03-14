@@ -1,4 +1,4 @@
-defmodule Api.Registry.List do
+defmodule Api.Registry.Person.List do
   @moduledoc false
   alias Api.Registry.Person
   alias Api.Repo

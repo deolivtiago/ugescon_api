@@ -1,17 +1,17 @@
-defmodule Api.Registry.Get do
+defmodule Api.Location.Country.Get do
   @moduledoc false
-  alias Api.Registry.Person
+  alias Api.Location.Country
   alias Api.Repo
 
   @doc false
   def call(id) do
-    Person
+    Country
     |> Repo.get!(id)
     |> then(&{:ok, &1})
   rescue
     _ ->
       :id
-      |> Person.invalid_changeset(id, "not found")
+      |> Country.invalid_changeset(id, "not found")
       |> then(&{:error, &1})
   end
 end

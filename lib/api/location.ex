@@ -2,12 +2,7 @@ defmodule Api.Location do
   @moduledoc """
   The Location context
   """
-  alias Api.Location.Change
-  alias Api.Location.Create
-  alias Api.Location.Delete
-  alias Api.Location.Get
-  alias Api.Location.List
-  alias Api.Location.Update
+  alias Api.Location.Country
 
   @doc """
   Returns a list of countries
@@ -18,7 +13,7 @@ defmodule Api.Location do
       [%Country{}, ...]
 
   """
-  defdelegate list_countries, to: List, as: :call
+  defdelegate list_countries, to: Country.List, as: :call
 
   @doc """
   Gets a country
@@ -32,7 +27,7 @@ defmodule Api.Location do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate get_country(id), to: Get, as: :call
+  defdelegate get_country(id), to: Country.Get, as: :call
 
   @doc """
   Creates a country
@@ -46,7 +41,7 @@ defmodule Api.Location do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate create_country(attrs \\ %{}), to: Create, as: :call
+  defdelegate create_country(attrs \\ %{}), to: Country.Create, as: :call
 
   @doc """
   Updates a country
@@ -60,7 +55,7 @@ defmodule Api.Location do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate update_country(country, attrs), to: Update, as: :call
+  defdelegate update_country(country, attrs), to: Country.Update, as: :call
 
   @doc """
   Deletes a country
@@ -74,7 +69,7 @@ defmodule Api.Location do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate delete_country(country), to: Delete, as: :call
+  defdelegate delete_country(country), to: Country.Delete, as: :call
 
   @doc """
   Returns a changeset for tracking country changes
@@ -85,5 +80,5 @@ defmodule Api.Location do
       %Ecto.Changeset{data: %Country{}}
 
   """
-  defdelegate change_country(country, attrs \\ %{}), to: Change, as: :call
+  defdelegate change_country(country, attrs \\ %{}), to: Country.Change, as: :call
 end

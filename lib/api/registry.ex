@@ -2,12 +2,7 @@ defmodule Api.Registry do
   @moduledoc """
   The Registry context
   """
-  alias Api.Registry.Change
-  alias Api.Registry.Create
-  alias Api.Registry.Delete
-  alias Api.Registry.Get
-  alias Api.Registry.List
-  alias Api.Registry.Update
+  alias Api.Registry.Person
 
   @doc """
   Returns a list of persons
@@ -18,7 +13,7 @@ defmodule Api.Registry do
       [%Person{}, ...]
 
   """
-  defdelegate list_persons, to: List, as: :call
+  defdelegate list_persons, to: Person.List, as: :call
 
   @doc """
   Gets a person
@@ -32,7 +27,7 @@ defmodule Api.Registry do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate get_person(id), to: Get, as: :call
+  defdelegate get_person(id), to: Person.Get, as: :call
 
   @doc """
   Creates a person
@@ -46,7 +41,7 @@ defmodule Api.Registry do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate create_person(attrs \\ %{}), to: Create, as: :call
+  defdelegate create_person(attrs \\ %{}), to: Person.Create, as: :call
 
   @doc """
   Updates a person
@@ -60,7 +55,7 @@ defmodule Api.Registry do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate update_person(person, attrs), to: Update, as: :call
+  defdelegate update_person(person, attrs), to: Person.Update, as: :call
 
   @doc """
   Deletes a person
@@ -74,7 +69,7 @@ defmodule Api.Registry do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate delete_person(person), to: Delete, as: :call
+  defdelegate delete_person(person), to: Person.Delete, as: :call
 
   @doc """
   Returns a changeset for tracking person changes
@@ -85,5 +80,5 @@ defmodule Api.Registry do
       %Ecto.Changeset{data: %Person{}}
 
   """
-  defdelegate change_person(person, attrs \\ %{}), to: Change, as: :call
+  defdelegate change_person(person, attrs \\ %{}), to: Person.Change, as: :call
 end
