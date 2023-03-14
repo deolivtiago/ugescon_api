@@ -15,7 +15,7 @@ defmodule Api.Registry do
   ## Examples
 
       iex> list_persons()
-      [%User{}, ...]
+      [%Person{}, ...]
 
   """
   defdelegate list_persons, to: List, as: :call
@@ -26,7 +26,7 @@ defmodule Api.Registry do
   ## Examples
 
       iex> get_person(value)
-      {:ok, %User{}}
+      {:ok, %Person{}}
 
       iex> get_person(bad_value)
       {:error, %Ecto.Changeset{}}
@@ -40,7 +40,7 @@ defmodule Api.Registry do
   ## Examples
 
       iex> create_person(%{field: value})
-      {:ok, %User{}}
+      {:ok, %Person{}}
 
       iex> create_person(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
@@ -54,7 +54,7 @@ defmodule Api.Registry do
   ## Examples
 
       iex> update_person(person, %{field: new_value})
-      {:ok, %User{}}
+      {:ok, %Person{}}
 
       iex> update_person(person, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
@@ -68,7 +68,7 @@ defmodule Api.Registry do
   ## Examples
 
       iex> delete_person(person)
-      {:ok, %User{}}
+      {:ok, %Person{}}
 
       iex> delete_person(person)
       {:error, %Ecto.Changeset{}}
@@ -82,7 +82,7 @@ defmodule Api.Registry do
   ## Examples
 
       iex> change_person(person)
-      %Ecto.Changeset{data: %User{}}
+      %Ecto.Changeset{data: %Person{}}
 
   """
   defdelegate change_person(person, attrs \\ %{}), to: Change, as: :call
