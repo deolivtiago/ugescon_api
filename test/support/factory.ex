@@ -7,4 +7,5 @@ defmodule Api.Factory do
   use Api.Factories.UserFactory
   use Api.Factories.AuthFactory
   use Api.Factories.PersonFactory
+  use Api.Factories.CountryFactory
 end
