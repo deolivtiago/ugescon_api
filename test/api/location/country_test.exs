@@ -7,7 +7,7 @@ defmodule Api.Location.CountryTest do
   alias Ecto.Changeset
 
   setup do
-    attrs = params_for(:country) |> IO.inspect(label: :debug)
+    attrs = params_for(:country)
 
     {:ok, attrs: attrs}
   end
