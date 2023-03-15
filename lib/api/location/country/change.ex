@@ -1,4 +1,4 @@
-defmodule Api.Location.Change do
+defmodule Api.Location.Country.Change do
   @moduledoc false
   alias Api.Location.Country
 

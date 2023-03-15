@@ -1,4 +1,4 @@
-defmodule Api.Registry.Change do
+defmodule Api.Registry.Person.Change do
   @moduledoc false
   alias Api.Registry.Person
 

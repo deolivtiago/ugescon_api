@@ -1,4 +1,4 @@
-defmodule Api.UserManagement.Update do
+defmodule Api.UserManagement.User.Update do
   @moduledoc false
   alias Api.Repo
   alias Api.UserManagement.User

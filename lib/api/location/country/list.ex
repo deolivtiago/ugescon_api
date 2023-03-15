@@ -1,4 +1,4 @@
-defmodule Api.Location.List do
+defmodule Api.Location.Country.List do
   @moduledoc false
   alias Api.Location.Country
   alias Api.Repo

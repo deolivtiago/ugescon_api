@@ -1,4 +1,4 @@
-defmodule Api.UserManagement.Create do
+defmodule Api.UserManagement.User.Create do
   @moduledoc false
   alias Api.Repo
   alias Api.UserManagement.User

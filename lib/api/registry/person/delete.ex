@@ -1,4 +1,4 @@
-defmodule Api.Registry.Delete do
+defmodule Api.Registry.Person.Delete do
   @moduledoc false
   alias Api.Registry.Person
   alias Api.Repo

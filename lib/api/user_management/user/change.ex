@@ -1,4 +1,4 @@
-defmodule Api.UserManagement.Change do
+defmodule Api.UserManagement.User.Change do
   @moduledoc false
   alias Api.UserManagement.User
 

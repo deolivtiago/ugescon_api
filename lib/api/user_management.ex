@@ -2,12 +2,7 @@ defmodule Api.UserManagement do
   @moduledoc """
   The User Management context
   """
-  alias Api.UserManagement.Change
-  alias Api.UserManagement.Create
-  alias Api.UserManagement.Delete
-  alias Api.UserManagement.Get
-  alias Api.UserManagement.List
-  alias Api.UserManagement.Update
+  alias Api.UserManagement.User
 
   @doc """
   Returns a list of users
@@ -18,7 +13,7 @@ defmodule Api.UserManagement do
       [%User{}, ...]
 
   """
-  defdelegate list_users, to: List, as: :call
+  defdelegate list_users, to: User.List, as: :call
 
   @doc """
   Gets an user
@@ -32,7 +27,7 @@ defmodule Api.UserManagement do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate get_user(id), to: Get, as: :call
+  defdelegate get_user(id), to: User.Get, as: :call
 
   @doc """
   Creates an user
@@ -46,7 +41,7 @@ defmodule Api.UserManagement do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate create_user(attrs \\ %{}), to: Create, as: :call
+  defdelegate create_user(attrs \\ %{}), to: User.Create, as: :call
 
   @doc """
   Updates an user
@@ -60,7 +55,7 @@ defmodule Api.UserManagement do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate update_user(user, attrs), to: Update, as: :call
+  defdelegate update_user(user, attrs), to: User.Update, as: :call
 
   @doc """
   Deletes an user
@@ -74,7 +69,7 @@ defmodule Api.UserManagement do
       {:error, %Ecto.Changeset{}}
 
   """
-  defdelegate delete_user(user), to: Delete, as: :call
+  defdelegate delete_user(user), to: User.Delete, as: :call
 
   @doc """
   Returns a changeset for tracking user changes
@@ -85,5 +80,5 @@ defmodule Api.UserManagement do
       %Ecto.Changeset{data: %User{}}
 
   """
-  defdelegate change_user(user, attrs \\ %{}), to: Change, as: :call
+  defdelegate change_user(user, attrs \\ %{}), to: User.Change, as: :call
 end
