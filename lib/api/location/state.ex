@@ -3,12 +3,14 @@ defmodule Api.Location.State do
 
   import Ecto.Changeset
 
+  alias Api.Location.City
   alias Api.Location.Country
 
   schema "states" do
     field :code, :string
     field :name, :string
     belongs_to :country, Country
+    has_many :cities, City
 
     timestamps()
   end
@@ -19,6 +21,7 @@ defmodule Api.Location.State do
     |> cast(attrs, [:name, :code, :country_id])
     |> validate_required([:name, :code])
     |> unique_constraint(:id, name: :states_pkey)
+    |> cast_assoc(:cities)
     |> assoc_constraint(:country)
     |> validate_length(:code, is: 2)
     |> update_change(:code, &String.upcase/1)
