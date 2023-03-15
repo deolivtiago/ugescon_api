@@ -2,6 +2,7 @@ defmodule Api.Location do
   @moduledoc """
   The Location context
   """
+  alias Api.Location.City
   alias Api.Location.Country
   alias Api.Location.State
 
@@ -160,4 +161,82 @@ defmodule Api.Location do
 
   """
   defdelegate change_state(state, attrs \\ %{}), to: State.Change, as: :call
+
+  @doc """
+  Returns a list of cities
+
+  ## Examples
+
+      iex> list_cities()
+      [%City{}, ...]
+
+  """
+  defdelegate list_cities, to: City.List, as: :call
+
+  @doc """
+  Gets a city
+
+  ## Examples
+
+      iex> get_city(value)
+      {:ok, %City{}}
+
+      iex> get_city(bad_value)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate get_city(id), to: City.Get, as: :call
+
+  @doc """
+  Creates a city
+
+  ## Examples
+
+      iex> create_city(%{field: value})
+      {:ok, %City{}}
+
+      iex> create_city(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate create_city(attrs \\ %{}), to: City.Create, as: :call
+
+  @doc """
+  Updates a city
+
+  ## Examples
+
+      iex> update_city(city, %{field: new_value})
+      {:ok, %City{}}
+
+      iex> update_city(city, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate update_city(city, attrs), to: City.Update, as: :call
+
+  @doc """
+  Deletes a city
+
+  ## Examples
+
+      iex> delete_city(city)
+      {:ok, %City{}}
+
+      iex> delete_city(city)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate delete_city(city), to: City.Delete, as: :call
+
+  @doc """
+  Returns a changeset for tracking city changes
+
+  ## Examples
+
+      iex> change_city(city)
+      %Ecto.Changeset{data: %City{}}
+
+  """
+  defdelegate change_city(city, attrs \\ %{}), to: City.Change, as: :call
 end
