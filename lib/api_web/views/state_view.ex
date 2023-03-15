@@ -27,7 +27,8 @@ defmodule ApiWeb.StateView do
     %{
       id: state.id,
       name: state.name,
-      code: state.code
+      code: state.code,
+      country_id: state.country_id
     }
   end
 end

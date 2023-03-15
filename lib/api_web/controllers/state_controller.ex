@@ -5,27 +5,30 @@ defmodule ApiWeb.StateController do
   use ApiWeb, :controller
 
   alias Api.Location
-  alias Api.Location.State
 
   action_fallback ApiWeb.FallbackController
 
   @doc """
   Handles requests to list states
   """
-  def index(conn, _params) do
-    states = Location.list_states()
-
-    render(conn, "index.json", states: states)
+  def index(conn, %{"country_id" => country_id}) do
+    with {:ok, _country} <- Location.get_country(country_id),
+         states <- Location.list_states() do
+      render(conn, "index.json", states: states)
+    end
   end
 
   @doc """
   Handles requests to create state
   """
-  def create(conn, %{"state" => state_params}) do
-    with {:ok, %State{} = state} <- Location.create_state(state_params) do
+  def create(conn, %{"country_id" => country_id, "state" => state_params}) do
+    state_params = Map.put(state_params, "country_id", country_id)
+
+    with {:ok, _country} <- Location.get_country(country_id),
+         {:ok, state} <- Location.create_state(state_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.state_path(conn, :show, state))
+      |> put_resp_header("location", Routes.country_state_path(conn, :show, country_id, state))
       |> render("show.json", state: state)
     end
   end
@@ -33,8 +36,9 @@ defmodule ApiWeb.StateController do
   @doc """
   Handles requests to show state
   """
-  def show(conn, %{"id" => id}) do
-    with {:ok, state} <- Location.get_state(id) do
+  def show(conn, %{"country_id" => country_id, "id" => id}) do
+    with {:ok, _country} <- Location.get_country(country_id),
+         {:ok, state} <- Location.get_state(id) do
       render(conn, "show.json", state: state)
     end
   end
@@ -42,9 +46,10 @@ defmodule ApiWeb.StateController do
   @doc """
   Handles requests to update state
   """
-  def update(conn, %{"id" => id, "state" => state_params}) do
-    with {:ok, state} <- Location.get_state(id),
-         {:ok, %State{} = state} <- Location.update_state(state, state_params) do
+  def update(conn, %{"country_id" => country_id, "id" => id, "state" => state_params}) do
+    with {:ok, _country} <- Location.get_country(country_id),
+         {:ok, state} <- Location.get_state(id),
+         {:ok, state} <- Location.update_state(state, state_params) do
       render(conn, "show.json", state: state)
     end
   end
@@ -52,9 +57,10 @@ defmodule ApiWeb.StateController do
   @doc """
   Handles requests to delete state
   """
-  def delete(conn, %{"id" => id}) do
-    with {:ok, state} <- Location.get_state(id),
-         {:ok, %State{}} <- Location.delete_state(state) do
+  def delete(conn, %{"country_id" => country_id, "id" => id}) do
+    with {:ok, _country} <- Location.get_country(country_id),
+         {:ok, state} <- Location.get_state(id),
+         {:ok, _state} <- Location.delete_state(state) do
       send_resp(conn, :no_content, "")
     end
   end

@@ -12,6 +12,7 @@ defmodule Api.Factories.StateFactory do
           id: Faker.UUID.v4(),
           name: Faker.Address.PtBr.state(),
           code: Faker.Address.state_abbr(),
+          country_id: insert(:country).id,
           inserted_at: Faker.DateTime.backward(366),
           updated_at: DateTime.utc_now()
         }

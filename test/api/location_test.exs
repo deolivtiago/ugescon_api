@@ -8,13 +8,6 @@ defmodule Api.LocationTest do
   alias Api.Location.State
   alias Ecto.Changeset
 
-  setup do
-    country_attrs = params_for(:country)
-    state_attrs = params_for(:state)
-
-    {:ok, country_attrs: country_attrs, state_attrs: state_attrs}
-  end
-
   describe "list_countries/0" do
     test "without countries returns an empty list" do
       assert [] == Location.list_countries()
@@ -48,7 +41,9 @@ defmodule Api.LocationTest do
   end
 
   describe "create_country/1 returns :ok" do
-    test "when the country attributes are valid", %{country_attrs: attrs} do
+    test "when the country attributes are valid" do
+      attrs = params_for(:country)
+
       assert {:ok, %Country{} = country} = Location.create_country(attrs)
 
       assert attrs.name == country.name
@@ -77,10 +72,10 @@ defmodule Api.LocationTest do
       assert errors.code == ["can't be blank"]
     end
 
-    test "when the country code already exists", %{country_attrs: attrs} do
+    test "when the country code already exists" do
       attrs =
-        insert(:country)
-        |> then(&Map.put(attrs, :code, &1.code))
+        params_for(:country)
+        |> Map.put(:code, insert(:country).code)
 
       assert {:error, changeset} = Location.create_country(attrs)
       errors = errors_on(changeset)
@@ -93,7 +88,9 @@ defmodule Api.LocationTest do
   describe "update_country/2 returns :ok" do
     setup [:insert_country]
 
-    test "when the country attributes are valid", %{country: country, country_attrs: attrs} do
+    test "when the country attributes are valid", %{country: country} do
+      attrs = params_for(:country)
+
       assert {:ok, %Country{} = country} = Location.update_country(country, attrs)
 
       assert attrs.name == country.name
@@ -172,7 +169,9 @@ defmodule Api.LocationTest do
   end
 
   describe "create_state/1 returns :ok" do
-    test "when the state attributes are valid", %{state_attrs: attrs} do
+    test "when the state attributes are valid" do
+      attrs = params_for(:state)
+
       assert {:ok, %State{} = state} = Location.create_state(attrs)
 
       assert attrs.name == state.name
@@ -205,7 +204,9 @@ defmodule Api.LocationTest do
   describe "update_state/2 returns :ok" do
     setup [:insert_state]
 
-    test "when the state attributes are valid", %{state: state, state_attrs: attrs} do
+    test "when the state attributes are valid", %{state: state} do
+      attrs = params_for(:state)
+
       assert {:ok, %State{} = state} = Location.update_state(state, attrs)
 
       assert attrs.name == state.name
@@ -260,6 +261,18 @@ defmodule Api.LocationTest do
   defp insert_state(_) do
     :state
     |> insert()
+    |> unload(:country)
     |> then(&{:ok, state: &1})
+  end
+
+  def unload(struct, field, cardinality \\ :one) do
+    %{
+      struct
+      | field => %Ecto.Association.NotLoaded{
+          __field__: field,
+          __owner__: struct.__struct__,
+          __cardinality__: cardinality
+        }
+    }
   end
 end

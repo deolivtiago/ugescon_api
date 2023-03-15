@@ -17,6 +17,7 @@ defmodule ApiWeb.StateViewTest do
       assert state_data.id == state.id
       assert state_data.code == state.code
       assert state_data.name == state.name
+      assert state_data.country_id == state.country_id
     end
 
     test "with a single state", %{state: state} do
@@ -25,6 +26,7 @@ defmodule ApiWeb.StateViewTest do
       assert state_data.id == state.id
       assert state_data.code == state.code
       assert state_data.name == state.name
+      assert state_data.country_id == state.country_id
     end
 
     test "with state data", %{state: state} do
@@ -33,6 +35,7 @@ defmodule ApiWeb.StateViewTest do
       assert state_data.id == state.id
       assert state_data.code == state.code
       assert state_data.name == state.name
+      assert state_data.country_id == state.country_id
     end
   end
 
