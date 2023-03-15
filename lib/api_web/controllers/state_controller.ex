@@ -13,7 +13,7 @@ defmodule ApiWeb.StateController do
   """
   def index(conn, %{"country_id" => country_id}) do
     with {:ok, _country} <- Location.get_country(country_id),
-         states <- Location.list_states() do
+         states <- Location.list_states(country_id: country_id) do
       render(conn, "index.json", states: states)
     end
   end

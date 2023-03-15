@@ -14,7 +14,7 @@ defmodule ApiWeb.CityController do
   def index(conn, %{"country_id" => country_id, "state_id" => state_id}) do
     with {:ok, _country} <- Location.get_country(country_id),
          {:ok, _state} <- Location.get_state(state_id),
-         cities <- Location.list_cities() do
+         cities <- Location.list_cities(state_id: state_id) do
       render(conn, "index.json", cities: cities)
     end
   end

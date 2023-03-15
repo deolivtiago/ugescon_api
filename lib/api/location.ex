@@ -96,6 +96,17 @@ defmodule Api.Location do
   defdelegate list_states, to: State.List, as: :call
 
   @doc """
+  Returns a list of states filtered by country id
+
+  ## Examples
+
+      iex> list_states(country_id: country_id)
+      [%State{}, ...]
+
+  """
+  defdelegate list_states(filter), to: State.List, as: :call
+
+  @doc """
   Gets a state
 
   ## Examples
@@ -172,6 +183,17 @@ defmodule Api.Location do
 
   """
   defdelegate list_cities, to: City.List, as: :call
+
+  @doc """
+  Returns a list of cities filtered by state id
+
+  ## Examples
+
+      iex> list_cities(state_id: state_id)
+      [%State{}, ...]
+
+  """
+  defdelegate list_cities(filter), to: City.List, as: :call
 
   @doc """
   Gets a city
