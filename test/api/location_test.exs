@@ -4,6 +4,7 @@ defmodule Api.LocationTest do
   import Api.Factory
 
   alias Api.Location
+  alias Api.Location.City
   alias Api.Location.Country
   alias Api.Location.State
   alias Ecto.Changeset
@@ -252,6 +253,121 @@ defmodule Api.LocationTest do
     end
   end
 
+  ##
+
+  describe "list_cities/0" do
+    test "without cities returns an empty list" do
+      assert [] == Location.list_cities()
+    end
+
+    test "with cities returns all cities" do
+      city = insert(:city)
+
+      assert [city] == Location.list_cities()
+    end
+  end
+
+  describe "get_city/1 returns :ok" do
+    setup [:insert_city]
+
+    test "when the given id is found", %{city: %{id: id} = city} do
+      assert {:ok, %City{} = ^city} = Location.get_city(id)
+    end
+  end
+
+  describe "get_city/1 returns :error" do
+    test "when the given id is not found" do
+      id = Ecto.UUID.generate()
+
+      assert {:error, changeset} = Location.get_city(id)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.id == ["not found"]
+    end
+  end
+
+  describe "create_city/1 returns :ok" do
+    test "when the city attributes are valid" do
+      attrs = params_for(:city)
+
+      assert {:ok, %City{} = city} = Location.create_city(attrs)
+
+      assert attrs.name == city.name
+      assert attrs.state_id == city.state_id
+    end
+  end
+
+  describe "create_city/1 returns :error" do
+    test "when the city attributes are invalid" do
+      attrs = %{name: "?"}
+
+      assert {:error, changeset} = Location.create_city(attrs)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.name == ["should be at least 2 character(s)"]
+    end
+
+    test "when the city attributes is not provided" do
+      assert {:error, changeset} = Location.create_city()
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.name == ["can't be blank"]
+    end
+  end
+
+  describe "update_city/2 returns :ok" do
+    setup [:insert_city]
+
+    test "when the city attributes are valid", %{city: city} do
+      attrs = params_for(:city)
+
+      assert {:ok, %City{} = city} = Location.update_city(city, attrs)
+
+      assert attrs.name == city.name
+      assert attrs.state_id == city.state_id
+    end
+  end
+
+  describe "update_city/2 returns :error" do
+    setup [:insert_city]
+
+    test "when the city attributes are invalid", %{city: city} do
+      invalid_attrs = %{name: nil}
+
+      assert {:error, changeset} = Location.update_city(city, invalid_attrs)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.name == ["can't be blank"]
+      assert {:ok, city} == Location.get_city(city.id)
+    end
+  end
+
+  describe "delete_city/1" do
+    setup [:insert_city]
+
+    test "deletes the city", %{city: city} do
+      assert {:ok, %City{}} = Location.delete_city(city)
+
+      assert {:error, changeset} = Location.get_city(city.id)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.id == ["not found"]
+    end
+  end
+
+  describe "change_city/1" do
+    setup [:insert_city]
+
+    test "returns a changeset", %{city: city} do
+      assert %Changeset{} = Location.change_city(city)
+    end
+  end
+
   defp insert_country(_) do
     :country
     |> insert()
@@ -263,6 +379,12 @@ defmodule Api.LocationTest do
     |> insert()
     |> unload(:country)
     |> then(&{:ok, state: &1})
+  end
+
+  defp insert_city(_) do
+    :city
+    |> insert()
+    |> then(&{:ok, city: &1})
   end
 
   def unload(struct, field, cardinality \\ :one) do
