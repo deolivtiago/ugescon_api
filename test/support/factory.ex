@@ -9,4 +9,5 @@ defmodule Api.Factory do
   use Api.Factories.PersonFactory
   use Api.Factories.CountryFactory
   use Api.Factories.StateFactory
+  use Api.Factories.CityFactory
 end
