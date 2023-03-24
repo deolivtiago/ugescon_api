@@ -3,11 +3,14 @@ defmodule Api.Registry.Person do
 
   import Ecto.Changeset
 
+  alias Api.Accounting.Entry
+
   schema "persons" do
     field :alias, :string
     field :name, :string
     field :social_id, :string
     field :type, Ecto.Enum, values: [natural: 0, juridical: 1, other: 2]
+    has_many :entries, Entry
 
     timestamps()
   end
@@ -18,6 +21,7 @@ defmodule Api.Registry.Person do
     |> cast(attrs, [:name, :alias, :social_id, :type])
     |> validate_required([:name, :type])
     |> unique_constraint(:id, name: :persons_pkey)
+    |> cast_assoc(:entries)
     |> unique_constraint(:social_id)
     |> validate_length(:alias, max: 150)
     |> validate_length(:name, min: 2, max: 150)
