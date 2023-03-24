@@ -15,6 +15,7 @@ defmodule Api.Factories.EntryFactory do
           description: Faker.Lorem.sentence(),
           debit_account_code: insert(:account).code,
           credit_account_code: insert(:account).code,
+          person_id: insert(:person).id,
           inserted_at: Faker.DateTime.backward(366),
           updated_at: DateTime.utc_now()
         }
