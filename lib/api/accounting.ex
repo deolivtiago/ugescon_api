@@ -3,6 +3,7 @@ defmodule Api.Accounting do
   The Accounting context
   """
   alias Api.Accounting.Account
+  alias Api.Accounting.Entry
 
   @doc """
   Returns a list of accounts
@@ -81,4 +82,82 @@ defmodule Api.Accounting do
 
   """
   defdelegate change_account(account, attrs \\ %{}), to: Account.Change, as: :call
+
+  @doc """
+  Returns a list of entries
+
+  ## Examples
+
+      iex> list_entries()
+      [%Entry{}, ...]
+
+  """
+  defdelegate list_entries, to: Entry.List, as: :call
+
+  @doc """
+  Gets a entry
+
+  ## Examples
+
+      iex> get_entry(value)
+      {:ok, %Entry{}}
+
+      iex> get_entry(bad_value)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate get_entry(id), to: Entry.Get, as: :call
+
+  @doc """
+  Creates a entry
+
+  ## Examples
+
+      iex> create_entry(%{field: value})
+      {:ok, %Entry{}}
+
+      iex> create_entry(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate create_entry(attrs \\ %{}), to: Entry.Create, as: :call
+
+  @doc """
+  Updates a entry
+
+  ## Examples
+
+      iex> update_entry(entry, %{field: new_value})
+      {:ok, %Entry{}}
+
+      iex> update_entry(entry, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate update_entry(entry, attrs), to: Entry.Update, as: :call
+
+  @doc """
+  Deletes a entry
+
+  ## Examples
+
+      iex> delete_entry(entry)
+      {:ok, %Entry{}}
+
+      iex> delete_entry(entry)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  defdelegate delete_entry(entry), to: Entry.Delete, as: :call
+
+  @doc """
+  Returns a changeset for tracking entry changes
+
+  ## Examples
+
+      iex> change_entry(entry)
+      %Ecto.Changeset{data: %Entry{}}
+
+  """
+  defdelegate change_entry(entry, attrs \\ %{}), to: Entry.Change, as: :call
 end
