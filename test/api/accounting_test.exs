@@ -5,13 +5,8 @@ defmodule Api.AccountingTest do
 
   alias Api.Accounting
   alias Api.Accounting.Account
+  alias Api.Accounting.Entry
   alias Ecto.Changeset
-
-  setup do
-    attrs = params_for(:account)
-
-    {:ok, attrs: attrs}
-  end
 
   describe "list_accounts/0" do
     test "without accounts returns an empty list" do
@@ -46,6 +41,8 @@ defmodule Api.AccountingTest do
   end
 
   describe "create_account/1 returns :ok" do
+    setup [:params_for_account]
+
     test "when the account attributes are valid", %{attrs: attrs} do
       assert {:ok, %Account{} = account} = Accounting.create_account(attrs)
 
@@ -57,6 +54,8 @@ defmodule Api.AccountingTest do
   end
 
   describe "create_account/1 returns :error" do
+    setup [:params_for_account]
+
     test "when the account attributes are invalid" do
       attrs = %{code: "?", name: nil, level: "666", type: 666}
 
@@ -92,7 +91,7 @@ defmodule Api.AccountingTest do
   end
 
   describe "update_account/2 returns :ok" do
-    setup [:insert_account]
+    setup [:params_for_account, :insert_account]
 
     test "when the account attributes are valid", %{account: account, attrs: attrs} do
       assert {:ok, %Account{} = account} = Accounting.update_account(account, attrs)
@@ -142,9 +141,156 @@ defmodule Api.AccountingTest do
     end
   end
 
+  describe "list_entries/0" do
+    test "without entries returns an empty list" do
+      assert [] == Accounting.list_entries()
+    end
+
+    test "with entries returns all entries" do
+      entry = insert(:entry)
+
+      assert [entry] == Accounting.list_entries()
+    end
+  end
+
+  describe "get_entry/1 returns :ok" do
+    setup [:insert_entry]
+
+    test "when the given id is found", %{entry: %{id: id} = entry} do
+      assert {:ok, %Entry{} = ^entry} = Accounting.get_entry(id)
+    end
+  end
+
+  describe "get_entry/1 returns :error" do
+    test "when the given id is not found" do
+      id = Ecto.UUID.generate()
+
+      assert {:error, changeset} = Accounting.get_entry(id)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.id == ["not found"]
+    end
+  end
+
+  describe "create_entry/1 returns :ok" do
+    setup [:params_for_entry]
+
+    test "when the entry attributes are valid", %{attrs: attrs} do
+      assert {:ok, %Entry{} = entry} = Accounting.create_entry(attrs)
+
+      assert attrs.value == entry.value
+      assert attrs.description == entry.description
+      assert attrs.debit_account_code == entry.debit_account_code
+      assert attrs.credit_account_code == entry.credit_account_code
+      assert Enum.at(Ecto.Enum.values(Entry, :type), attrs.type) == entry.type
+    end
+  end
+
+  describe "create_entry/1 returns :error" do
+    setup [:params_for_entry]
+
+    test "when the entry attributes are invalid" do
+      attrs = %{value: nil, credit_account_code: "???", debit_account_code: "?", type: 666}
+
+      assert {:error, changeset} = Accounting.create_entry(attrs)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.value == ["can't be blank"]
+      assert errors.debit_account_code == ["must be a valid account code"]
+      assert errors.credit_account_code == ["must be a valid account code"]
+      assert errors.type == ["is invalid"]
+    end
+
+    test "when the entry attributes is not provided" do
+      assert {:error, changeset} = Accounting.create_entry()
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.value == ["can't be blank"]
+      assert errors.debit_account_code == ["can't be blank"]
+      assert errors.credit_account_code == ["can't be blank"]
+      assert errors.type == ["can't be blank"]
+    end
+  end
+
+  describe "update_entry/2 returns :ok" do
+    setup [:params_for_entry, :insert_entry]
+
+    test "when the entry attributes are valid", %{entry: entry, attrs: attrs} do
+      assert {:ok, %Entry{} = entry} = Accounting.update_entry(entry, attrs)
+
+      assert attrs.value == entry.value
+      assert attrs.description == entry.description
+      assert attrs.credit_account_code == entry.credit_account_code
+      assert attrs.debit_account_code == entry.debit_account_code
+      assert attrs.person_id == entry.person_id
+      assert Enum.at(Ecto.Enum.values(Entry, :type), attrs.type) == entry.type
+    end
+  end
+
+  describe "update_entry/2 returns :error" do
+    setup [:insert_entry]
+
+    test "when the entry attributes are invalid", %{entry: entry} do
+      invalid_attrs = %{value: "@", debit_account_code: "?", credit_account_code: "a", type: nil}
+
+      assert {:error, changeset} = Accounting.update_entry(entry, invalid_attrs)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.value == ["is invalid"]
+      assert errors.debit_account_code == ["must be a valid account code"]
+      assert errors.credit_account_code == ["must be a valid account code"]
+      assert errors.type == ["can't be blank"]
+      assert {:ok, entry} == Accounting.get_entry(entry.id)
+    end
+  end
+
+  describe "delete_entry/1" do
+    setup [:insert_entry]
+
+    test "deletes the entry", %{entry: entry} do
+      assert {:ok, %Entry{}} = Accounting.delete_entry(entry)
+
+      assert {:error, changeset} = Accounting.get_entry(entry.id)
+      errors = errors_on(changeset)
+
+      refute changeset.valid?
+      assert errors.id == ["not found"]
+    end
+  end
+
+  describe "change_entry/1" do
+    setup [:insert_entry]
+
+    test "returns a changeset", %{entry: entry} do
+      assert %Changeset{} = Accounting.change_entry(entry)
+    end
+  end
+
   defp insert_account(_) do
     :account
     |> insert()
     |> then(&{:ok, account: &1})
+  end
+
+  defp insert_entry(_) do
+    :entry
+    |> insert()
+    |> then(&{:ok, entry: &1})
+  end
+
+  defp params_for_account(_) do
+    attrs = params_for(:account)
+
+    {:ok, attrs: attrs}
+  end
+
+  defp params_for_entry(_) do
+    attrs = params_for(:entry)
+
+    {:ok, attrs: attrs}
   end
 end
