@@ -3,6 +3,7 @@ defmodule Api.Repo.Migrations.CreateEntries do
 
   def change do
     create table(:entries) do
+      add :name, :string, size: 150, null: false
       add :type, :integer, null: false
       add :date, :timestamptz, null: false, default: fragment("now()")
       add :value, :integer, null: false
