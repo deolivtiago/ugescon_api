@@ -21,6 +21,7 @@ defmodule ApiWeb.EntryControllerTest do
 
       assert entry_data["id"] == entry.id
       assert entry_data["value"] == entry.value
+      assert entry_data["date"] == DateTime.to_iso8601(entry.date)
       assert entry_data["description"] == entry.description
       assert entry_data["person_id"] == entry.person_id
       assert entry_data["debit_account_code"] == entry.debit_account_code
@@ -40,6 +41,7 @@ defmodule ApiWeb.EntryControllerTest do
       assert %{"success" => true, "data" => entry_data} = json_response(conn, 201)
 
       assert entry_data["value"] == entry_params.value
+      assert entry_data["date"] == DateTime.to_iso8601(entry_params.date)
       assert entry_data["description"] == entry_params.description
       assert entry_data["person_id"] == person_id
       assert entry_data["debit_account_code"] == entry_params.debit_account_code
@@ -52,13 +54,14 @@ defmodule ApiWeb.EntryControllerTest do
     setup [:insert_entry, :put_auth]
 
     test "when the entry parameters are invalid", %{conn: conn, entry: %{person_id: person_id}} do
-      entry_params = %{value: "?", type: nil, credit_account_code: "?"}
+      entry_params = %{value: "?", type: nil, credit_account_code: "?", date: "?"}
 
       conn = post(conn, Routes.person_entry_path(conn, :create, person_id), entry: entry_params)
 
       assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
 
       assert errors["value"] == ["is invalid"]
+      assert errors["date"] == ["is invalid"]
       assert errors["debit_account_code"] == ["can't be blank"]
       assert errors["credit_account_code"] == ["must be a valid account code"]
     end
@@ -85,6 +88,7 @@ defmodule ApiWeb.EntryControllerTest do
 
       assert entry_data["id"] == entry.id
       assert entry_data["value"] == entry.value
+      assert entry_data["date"] == DateTime.to_iso8601(entry.date)
       assert entry_data["description"] == entry.description
       assert entry_data["person_id"] == entry.person_id
       assert entry_data["debit_account_code"] == entry.debit_account_code
@@ -128,6 +132,7 @@ defmodule ApiWeb.EntryControllerTest do
 
       assert entry_data["id"] == entry.id
       assert entry_data["value"] == entry_params.value
+      assert entry_data["date"] == DateTime.to_iso8601(entry_params.date)
       assert entry_data["description"] == entry_params.description
       assert entry_data["person_id"] == entry_params.person_id
       assert entry_data["debit_account_code"] == entry_params.debit_account_code
