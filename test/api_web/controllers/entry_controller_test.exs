@@ -20,6 +20,7 @@ defmodule ApiWeb.EntryControllerTest do
       assert %{"success" => true, "data" => [entry_data]} = json_response(conn, 200)
 
       assert entry_data["id"] == entry.id
+      assert entry_data["name"] == entry.name
       assert entry_data["value"] == entry.value
       assert entry_data["date"] == DateTime.to_iso8601(entry.date)
       assert entry_data["description"] == entry.description
@@ -41,6 +42,7 @@ defmodule ApiWeb.EntryControllerTest do
       assert %{"success" => true, "data" => entry_data} = json_response(conn, 201)
 
       assert entry_data["value"] == entry_params.value
+      assert entry_data["name"] == entry_params.name
       assert entry_data["date"] == DateTime.to_iso8601(entry_params.date)
       assert entry_data["description"] == entry_params.description
       assert entry_data["person_id"] == person_id
@@ -87,6 +89,7 @@ defmodule ApiWeb.EntryControllerTest do
       assert %{"success" => true, "data" => entry_data} = json_response(conn, 200)
 
       assert entry_data["id"] == entry.id
+      assert entry_data["name"] == entry.name
       assert entry_data["value"] == entry.value
       assert entry_data["date"] == DateTime.to_iso8601(entry.date)
       assert entry_data["description"] == entry.description
@@ -131,6 +134,7 @@ defmodule ApiWeb.EntryControllerTest do
       assert %{"success" => true, "data" => entry_data} = json_response(conn, 200)
 
       assert entry_data["id"] == entry.id
+      assert entry_data["name"] == entry_params.name
       assert entry_data["value"] == entry_params.value
       assert entry_data["date"] == DateTime.to_iso8601(entry_params.date)
       assert entry_data["description"] == entry_params.description
