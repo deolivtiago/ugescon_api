@@ -13,6 +13,7 @@ defmodule Api.Accounting.Entry do
     field :description, :string
     field :type, Ecto.Enum, values: [debit: 0, credit: 1]
     field :value, :integer
+    field :date, :utc_datetime
 
     belongs_to :debit_account, Account,
       foreign_key: :debit_account_code,
@@ -32,7 +33,7 @@ defmodule Api.Accounting.Entry do
   @doc false
   def changeset(entry, attrs) do
     entry
-    |> cast(attrs, @required_attrs ++ [:description, :person_id])
+    |> cast(attrs, @required_attrs ++ [:description, :person_id, :date])
     |> validate_required(@required_attrs)
     |> unique_constraint(:id, name: :entries_pkey)
     |> assoc_constraint(:person)
