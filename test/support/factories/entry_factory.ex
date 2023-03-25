@@ -12,6 +12,7 @@ defmodule Api.Factories.EntryFactory do
           id: Faker.UUID.v4(),
           type: Faker.Random.Elixir.random_between(0, 1),
           value: Faker.Random.Elixir.random_between(1, 999_999_999),
+          date: DateTime.truncate(Faker.DateTime.backward(366), :second),
           description: Faker.Lorem.sentence(),
           debit_account_code: insert(:account).code,
           credit_account_code: insert(:account).code,
