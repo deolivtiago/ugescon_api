@@ -180,6 +180,7 @@ defmodule Api.AccountingTest do
       assert {:ok, %Entry{} = entry} = Accounting.create_entry(attrs)
 
       assert attrs.value == entry.value
+      assert DateTime.compare(attrs.date, entry.date) == :eq
       assert attrs.description == entry.description
       assert attrs.debit_account_code == entry.debit_account_code
       assert attrs.credit_account_code == entry.credit_account_code
@@ -191,13 +192,14 @@ defmodule Api.AccountingTest do
     setup [:params_for_entry]
 
     test "when the entry attributes are invalid" do
-      attrs = %{value: nil, credit_account_code: "???", debit_account_code: "?", type: 666}
+      attrs = %{date: "?", credit_account_code: "???", debit_account_code: "?", type: 666}
 
       assert {:error, changeset} = Accounting.create_entry(attrs)
       errors = errors_on(changeset)
 
       refute changeset.valid?
       assert errors.value == ["can't be blank"]
+      assert errors.date == ["is invalid"]
       assert errors.debit_account_code == ["must be a valid account code"]
       assert errors.credit_account_code == ["must be a valid account code"]
       assert errors.type == ["is invalid"]
@@ -222,6 +224,7 @@ defmodule Api.AccountingTest do
       assert {:ok, %Entry{} = entry} = Accounting.update_entry(entry, attrs)
 
       assert attrs.value == entry.value
+      assert DateTime.compare(attrs.date, entry.date) == :eq
       assert attrs.description == entry.description
       assert attrs.credit_account_code == entry.credit_account_code
       assert attrs.debit_account_code == entry.debit_account_code
