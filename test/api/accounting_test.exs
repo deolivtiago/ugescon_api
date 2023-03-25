@@ -179,6 +179,7 @@ defmodule Api.AccountingTest do
     test "when the entry attributes are valid", %{attrs: attrs} do
       assert {:ok, %Entry{} = entry} = Accounting.create_entry(attrs)
 
+      assert attrs.name == entry.name
       assert attrs.value == entry.value
       assert DateTime.compare(attrs.date, entry.date) == :eq
       assert attrs.description == entry.description
@@ -223,6 +224,7 @@ defmodule Api.AccountingTest do
     test "when the entry attributes are valid", %{entry: entry, attrs: attrs} do
       assert {:ok, %Entry{} = entry} = Accounting.update_entry(entry, attrs)
 
+      assert attrs.name == entry.name
       assert attrs.value == entry.value
       assert DateTime.compare(attrs.date, entry.date) == :eq
       assert attrs.description == entry.description
