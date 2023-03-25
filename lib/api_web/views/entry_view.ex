@@ -28,6 +28,7 @@ defmodule ApiWeb.EntryView do
     %{
       id: entry.id,
       type: Ecto.Enum.mappings(Entry, :type)[entry.type],
+      name: entry.name,
       value: entry.value,
       date: entry.date,
       description: entry.description,
