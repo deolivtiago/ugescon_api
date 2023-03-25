@@ -17,6 +17,7 @@ defmodule ApiWeb.EntryViewTest do
       assert entry_data.id == entry.id
       assert entry_data.type == Ecto.Enum.mappings(Entry, :type)[entry.type]
       assert entry_data.value == entry.value
+      assert entry_data.name == entry.name
       assert DateTime.compare(entry_data.date, entry.date) == :eq
       assert entry_data.description == entry.description
       assert entry_data.debit_account_code == entry.debit_account_code
@@ -30,6 +31,7 @@ defmodule ApiWeb.EntryViewTest do
       assert entry_data.id == entry.id
       assert entry_data.type == Ecto.Enum.mappings(Entry, :type)[entry.type]
       assert entry_data.value == entry.value
+      assert entry_data.name == entry.name
       assert DateTime.compare(entry_data.date, entry.date) == :eq
       assert entry_data.description == entry.description
       assert entry_data.debit_account_code == entry.debit_account_code
@@ -43,6 +45,7 @@ defmodule ApiWeb.EntryViewTest do
       assert entry_data.id == entry.id
       assert entry_data.type == Ecto.Enum.mappings(Entry, :type)[entry.type]
       assert entry_data.value == entry.value
+      assert entry_data.name == entry.name
       assert DateTime.compare(entry_data.date, entry.date) == :eq
       assert entry_data.description == entry.description
       assert entry_data.debit_account_code == entry.debit_account_code
