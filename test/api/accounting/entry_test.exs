@@ -20,6 +20,13 @@ defmodule Api.Accounting.EntryTest do
       assert changeset.changes.description == attrs.description
     end
 
+    test "when date is valid", %{attrs: attrs} do
+      changeset = Entry.changeset(attrs)
+
+      assert %Changeset{valid?: true} = changeset
+      assert DateTime.compare(changeset.changes.date, attrs.date) == :eq
+    end
+
     test "when value is valid", %{attrs: attrs} do
       changeset = Entry.changeset(attrs)
 
@@ -36,6 +43,16 @@ defmodule Api.Accounting.EntryTest do
   end
 
   describe "changeset/1 returns an invalid changeset" do
+    test "when date is invalid", %{attrs: attrs} do
+      attrs = Map.put(attrs, :date, "invalid")
+
+      changeset = Entry.changeset(attrs)
+      errors = errors_on(changeset)
+
+      assert %Changeset{valid?: false} = changeset
+      assert errors.date == ["is invalid"]
+    end
+
     test "when value is null", %{attrs: attrs} do
       attrs = Map.put(attrs, :value, nil)
 
