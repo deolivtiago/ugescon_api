@@ -13,7 +13,7 @@ defmodule Api.Accounting.Entry do
     field :name, :string
     field :description, :string
     field :type, Ecto.Enum, values: [debit: 0, credit: 1]
-    field :value, :integer
+    field :value, :float
     field :date, :utc_datetime
 
     belongs_to :debit_account, Account,

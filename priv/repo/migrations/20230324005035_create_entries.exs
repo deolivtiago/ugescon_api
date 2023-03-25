@@ -6,7 +6,7 @@ defmodule Api.Repo.Migrations.CreateEntries do
       add :name, :string, size: 150, null: false
       add :type, :integer, null: false
       add :date, :timestamptz, null: false, default: fragment("now()")
-      add :value, :integer, null: false
+      add :value, :float, null: false
       add :description, :string
 
       add :person_id, references(:persons, on_delete: :delete_all), null: false
