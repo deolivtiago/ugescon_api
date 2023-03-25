@@ -13,6 +13,13 @@ defmodule Api.Accounting.EntryTest do
   end
 
   describe "changeset/1 returns a valid changeset" do
+    test "when name is valid", %{attrs: attrs} do
+      changeset = Entry.changeset(attrs)
+
+      assert %Changeset{valid?: true} = changeset
+      assert changeset.changes.name == attrs.name
+    end
+
     test "when description is valid", %{attrs: attrs} do
       changeset = Entry.changeset(attrs)
 
