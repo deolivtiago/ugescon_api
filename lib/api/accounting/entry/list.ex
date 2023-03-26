@@ -4,5 +4,9 @@ defmodule Api.Accounting.Entry.List do
   alias Api.Repo
 
   @doc false
-  def call, do: Repo.all(Entry)
+  def call do
+    Entry
+    |> Repo.all()
+    |> Repo.preload([:debit_account, :credit_account])
+  end
 end

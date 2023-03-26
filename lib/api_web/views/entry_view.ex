@@ -6,6 +6,7 @@ defmodule ApiWeb.EntryView do
 
   alias Api.Accounting.Entry
   alias ApiWeb.EntryView
+  alias ApiWeb.AccountView
 
   @doc """
   Renders a list of entries
@@ -32,8 +33,8 @@ defmodule ApiWeb.EntryView do
       value: entry.value,
       date: entry.date,
       description: entry.description,
-      debit_account_code: entry.debit_account_code,
-      credit_account_code: entry.credit_account_code,
+      debit_account: render_one(entry.debit_account, AccountView, "account.json"),
+      credit_account: render_one(entry.credit_account, AccountView, "account.json"),
       person_id: entry.person_id
     }
   end

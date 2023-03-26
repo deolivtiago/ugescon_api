@@ -7,6 +7,7 @@ defmodule Api.Accounting.Entry.Get do
   def call(id) do
     Entry
     |> Repo.get!(id)
+    |> Repo.preload([:debit_account, :credit_account])
     |> then(&{:ok, &1})
   rescue
     _ ->
