@@ -8,5 +8,9 @@ defmodule Api.UserManagement.User.Create do
     %User{}
     |> User.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, user} -> {:ok, Repo.preload(user, :person)}
+      error -> error
+    end
   end
 end

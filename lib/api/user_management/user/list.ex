@@ -4,5 +4,9 @@ defmodule Api.UserManagement.User.List do
   alias Api.UserManagement.User
 
   @doc false
-  def call, do: Repo.all(User)
+  def call do
+    User
+    |> Repo.all()
+    |> Repo.preload(:person)
+  end
 end

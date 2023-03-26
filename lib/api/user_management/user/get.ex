@@ -7,6 +7,7 @@ defmodule Api.UserManagement.User.Get do
   def call(email: email) do
     User
     |> Repo.get_by!(email: String.downcase(email))
+    |> Repo.preload(:person)
     |> then(&{:ok, &1})
   rescue
     _ ->
@@ -19,6 +20,7 @@ defmodule Api.UserManagement.User.Get do
   def call(id) do
     User
     |> Repo.get!(id)
+    |> Repo.preload(:person)
     |> then(&{:ok, &1})
   rescue
     _ ->
