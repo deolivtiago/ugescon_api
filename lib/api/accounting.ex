@@ -95,6 +95,17 @@ defmodule Api.Accounting do
   defdelegate list_entries, to: Entry.List, as: :call
 
   @doc """
+  Returns a list of entries filtered by person id
+
+  ## Examples
+
+      iex> list_entries(person_id: person_id)`
+      [%Account{}, ...]
+
+  """
+  defdelegate list_entries(filter), to: Entry.List, as: :call
+
+  @doc """
   Gets a entry
 
   ## Examples

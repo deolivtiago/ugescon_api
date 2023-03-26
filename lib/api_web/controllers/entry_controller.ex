@@ -15,7 +15,7 @@ defmodule ApiWeb.EntryController do
   """
   def index(conn, %{"person_id" => person_id}) do
     with {:ok, _person} <- Registry.get_person(person_id),
-         entries <- Accounting.list_entries() do
+         entries <- Accounting.list_entries(person_id: person_id) do
       render(conn, "index.json", entries: entries)
     end
   end
