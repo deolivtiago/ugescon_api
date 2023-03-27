@@ -147,7 +147,7 @@ defmodule Api.AccountingTest do
     end
 
     test "with entries returns all entries" do
-      entry = insert(:entry)
+      entry = insert(:entry) |> Repo.preload([:debit_account, :credit_account])
 
       assert [entry] == Accounting.list_entries()
     end
@@ -284,6 +284,7 @@ defmodule Api.AccountingTest do
   defp insert_entry(_) do
     :entry
     |> insert()
+    |> Repo.preload([:debit_account, :credit_account])
     |> then(&{:ok, entry: &1})
   end
 

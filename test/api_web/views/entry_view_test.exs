@@ -8,7 +8,7 @@ defmodule ApiWeb.EntryViewTest do
   alias ApiWeb.EntryView
 
   describe "render/3 returns success" do
-    setup [:build_entry]
+    setup [:insert_entry]
 
     test "with a list of entries", %{entry: entry} do
       assert %{success: true, data: data} = render(EntryView, "index.json", entries: [entry])
@@ -20,8 +20,6 @@ defmodule ApiWeb.EntryViewTest do
       assert entry_data.name == entry.name
       assert DateTime.compare(entry_data.date, entry.date) == :eq
       assert entry_data.description == entry.description
-      assert entry_data.debit_account_code == entry.debit_account_code
-      assert entry_data.credit_account_code == entry.credit_account_code
       assert entry_data.person_id == entry.person_id
     end
 
@@ -34,8 +32,6 @@ defmodule ApiWeb.EntryViewTest do
       assert entry_data.name == entry.name
       assert DateTime.compare(entry_data.date, entry.date) == :eq
       assert entry_data.description == entry.description
-      assert entry_data.debit_account_code == entry.debit_account_code
-      assert entry_data.credit_account_code == entry.credit_account_code
       assert entry_data.person_id == entry.person_id
     end
 
@@ -48,16 +44,14 @@ defmodule ApiWeb.EntryViewTest do
       assert entry_data.name == entry.name
       assert DateTime.compare(entry_data.date, entry.date) == :eq
       assert entry_data.description == entry.description
-      assert entry_data.debit_account_code == entry.debit_account_code
-      assert entry_data.credit_account_code == entry.credit_account_code
       assert entry_data.person_id == entry.person_id
     end
   end
 
-  defp build_entry(_) do
+  defp insert_entry(_) do
     :entry
-    |> build()
-    |> then(&Map.put(&1, :type, Enum.at(Ecto.Enum.values(Entry, :type), &1.type)))
+    |> insert()
+    |> Api.Repo.preload([:credit_account, :debit_account])
     |> then(&{:ok, entry: &1})
   end
 end

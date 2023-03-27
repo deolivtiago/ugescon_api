@@ -37,6 +37,7 @@ defmodule ApiWeb.UserViewTest do
   defp build_user(_) do
     :user
     |> build()
+    |> Api.Repo.preload(:person)
     |> then(&{:ok, user: &1})
   end
 end

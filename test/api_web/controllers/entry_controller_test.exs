@@ -25,8 +25,6 @@ defmodule ApiWeb.EntryControllerTest do
       assert entry_data["date"] == DateTime.to_iso8601(entry.date)
       assert entry_data["description"] == entry.description
       assert entry_data["person_id"] == entry.person_id
-      assert entry_data["debit_account_code"] == entry.debit_account_code
-      assert entry_data["credit_account_code"] == entry.credit_account_code
       assert entry_data["type"] == Ecto.Enum.mappings(Entry, :type)[entry.type]
     end
   end
@@ -46,8 +44,6 @@ defmodule ApiWeb.EntryControllerTest do
       assert entry_data["date"] == DateTime.to_iso8601(entry_params.date)
       assert entry_data["description"] == entry_params.description
       assert entry_data["person_id"] == person_id
-      assert entry_data["debit_account_code"] == entry_params.debit_account_code
-      assert entry_data["credit_account_code"] == entry_params.credit_account_code
       assert entry_data["type"] == entry_params.type
     end
   end
@@ -94,8 +90,6 @@ defmodule ApiWeb.EntryControllerTest do
       assert entry_data["date"] == DateTime.to_iso8601(entry.date)
       assert entry_data["description"] == entry.description
       assert entry_data["person_id"] == entry.person_id
-      assert entry_data["debit_account_code"] == entry.debit_account_code
-      assert entry_data["credit_account_code"] == entry.credit_account_code
       assert entry_data["type"] == Ecto.Enum.mappings(Entry, :type)[entry.type]
     end
   end
@@ -139,8 +133,6 @@ defmodule ApiWeb.EntryControllerTest do
       assert entry_data["date"] == DateTime.to_iso8601(entry_params.date)
       assert entry_data["description"] == entry_params.description
       assert entry_data["person_id"] == entry_params.person_id
-      assert entry_data["debit_account_code"] == entry_params.debit_account_code
-      assert entry_data["credit_account_code"] == entry_params.credit_account_code
       assert entry_data["type"] == entry_params.type
     end
   end
