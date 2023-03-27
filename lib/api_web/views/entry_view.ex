@@ -5,8 +5,8 @@ defmodule ApiWeb.EntryView do
   use ApiWeb, :view
 
   alias Api.Accounting.Entry
-  alias ApiWeb.EntryView
   alias ApiWeb.AccountView
+  alias ApiWeb.EntryView
 
   @doc """
   Renders a list of entries

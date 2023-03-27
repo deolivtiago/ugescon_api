@@ -8,7 +8,6 @@ defmodule Api.Accounting.FinancialStatement.List do
   def call(person_id) do
     Repo
     |> SQL.query!(raw_sql(), [Ecto.UUID.dump!(person_id)])
-    |> IO.inspect(label: :debug)
     |> merge_result()
   end
 

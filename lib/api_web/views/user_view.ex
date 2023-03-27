@@ -4,8 +4,8 @@ defmodule ApiWeb.UserView do
   """
   use ApiWeb, :view
 
-  alias ApiWeb.UserView
   alias ApiWeb.PersonView
+  alias ApiWeb.UserView
 
   @doc """
   Renders a list of users

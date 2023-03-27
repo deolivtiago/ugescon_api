@@ -2,9 +2,9 @@ defmodule Api.Accounting do
   @moduledoc """
   The Accounting context
   """
-  alias Api.Accounting.FinancialStatement
   alias Api.Accounting.Account
   alias Api.Accounting.Entry
+  alias Api.Accounting.FinancialStatement
 
   @doc """
   Returns a list of accounts
