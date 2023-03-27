@@ -2,6 +2,7 @@ defmodule Api.Accounting do
   @moduledoc """
   The Accounting context
   """
+  alias Api.Accounting.FinancialStatement
   alias Api.Accounting.Account
   alias Api.Accounting.Entry
 
@@ -171,4 +172,14 @@ defmodule Api.Accounting do
 
   """
   defdelegate change_entry(entry, attrs \\ %{}), to: Entry.Change, as: :call
+
+  @doc """
+  Returns a financial statement
+
+  ## Examples
+
+      iex> financial_statements()
+      [%{level: 1, code: "1", name: "ATIVO", total: 100.1}, ...]
+  """
+  defdelegate financial_statement(person_id), to: FinancialStatement.List, as: :call
 end

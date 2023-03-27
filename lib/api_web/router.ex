@@ -24,6 +24,7 @@ defmodule ApiWeb.Router do
 
     resources "/persons", PersonController, except: [:new, :edit] do
       resources "/entries", EntryController, except: [:new, :edit]
+      resources "/financial-statement", FinancialStatementController, only: [:index]
     end
 
     resources "/countries", CountryController, except: [:new, :edit] do
