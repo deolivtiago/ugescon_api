@@ -13,5 +13,6 @@ defmodule Api.Repo.Migrations.CreatePersons do
     end
 
     create unique_index(:persons, [:social_id])
+    create index(:persons, [:user_id])
   end
 end
