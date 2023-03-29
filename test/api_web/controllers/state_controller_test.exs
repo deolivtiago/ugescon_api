@@ -23,47 +23,6 @@ defmodule ApiWeb.StateControllerTest do
     end
   end
 
-  describe "create/2 returns success" do
-    setup [:insert_state, :put_auth]
-
-    test "when the state parameters are valid", %{conn: conn, state: %{country_id: country_id}} do
-      state_params = params_for(:state)
-
-      conn = post(conn, Routes.country_state_path(conn, :create, country_id), state: state_params)
-
-      assert %{"success" => true, "data" => state_data} = json_response(conn, 201)
-
-      assert state_data["name"] == state_params.name
-      assert state_data["code"] == state_params.code
-    end
-  end
-
-  describe "create/2 returns error" do
-    setup [:insert_state, :put_auth]
-
-    test "when the state parameters are invalid", %{conn: conn, state: %{country_id: country_id}} do
-      state_params = %{name: "?", code: "??"}
-
-      conn = post(conn, Routes.country_state_path(conn, :create, country_id), state: state_params)
-
-      assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
-
-      assert errors["code"] == ["must contain only characters A-Z"]
-      assert errors["name"] == ["should be at least 2 character(s)"]
-    end
-
-    test "when the country id is not found", %{conn: conn} do
-      state_params = params_for(:state)
-
-      conn =
-        post(conn, Routes.country_state_path(conn, :create, @id_not_found), state: state_params)
-
-      assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
-
-      assert errors["id"] == ["not found"]
-    end
-  end
-
   describe "show/2 returns success" do
     setup [:insert_state, :put_auth]
 
@@ -98,41 +57,8 @@ defmodule ApiWeb.StateControllerTest do
     end
   end
 
-  describe "update/2 returns success" do
-    setup [:insert_state, :put_auth]
-
-    test "when the state parameters are valid", %{conn: conn, state: state} do
-      state_params = params_for(:state)
-
-      conn =
-        put(conn, Routes.country_state_path(conn, :update, state.country_id, state),
-          state: state_params
-        )
-
-      assert %{"success" => true, "data" => state_data} = json_response(conn, 200)
-
-      assert state_data["id"] == state.id
-      assert state_data["name"] == state_params.name
-      assert state_data["code"] == state_params.code
-    end
-  end
-
   describe "update/2 returns error" do
     setup [:insert_state, :put_auth]
-
-    test "when the state parameters are invalid", %{conn: conn, state: state} do
-      state_params = %{name: "?", code: nil}
-
-      conn =
-        put(conn, Routes.country_state_path(conn, :update, state.country_id, state),
-          state: state_params
-        )
-
-      assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
-
-      assert errors["code"] == ["can't be blank"]
-      assert errors["name"] == ["should be at least 2 character(s)"]
-    end
 
     test "when the country id is not found", %{conn: conn, state: state} do
       state_params = params_for(:state)

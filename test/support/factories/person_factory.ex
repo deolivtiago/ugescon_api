@@ -14,6 +14,7 @@ defmodule Api.Factories.PersonFactory do
           alias: Faker.Person.name(),
           type: Faker.Random.Elixir.random_between(0, 2),
           social_id: "#{Faker.Random.Elixir.random_between(11_111_111_111, 99_999_999_999_999)}",
+          user_id: insert(:user).id,
           inserted_at: Faker.DateTime.backward(366),
           updated_at: DateTime.utc_now()
         }

@@ -30,6 +30,14 @@ defmodule ApiWeb.AccountController do
     end
   end
 
+  def create(conn, %{"accounts" => accounts_list_params}) do
+    with accounts <- Accounting.create_account(accounts_list_params) do
+      conn
+      |> put_status(:created)
+      |> render("index.json", accounts: accounts)
+    end
+  end
+
   @doc """
   Handles requests to show account
   """

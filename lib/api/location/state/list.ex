@@ -6,13 +6,19 @@ defmodule Api.Location.State.List do
   alias Api.Repo
 
   @doc false
-  def call, do: Repo.all(State)
+  def call do
+    State
+    |> Repo.all()
+    |> Repo.preload(:country)
+  end
 
   def call(country_id: country_id) do
     query =
       from s in State,
         where: s.country_id == ^country_id
 
-    Repo.all(query)
+    query
+    |> Repo.all()
+    |> Repo.preload(:country)
   end
 end

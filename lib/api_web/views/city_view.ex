@@ -5,6 +5,7 @@ defmodule ApiWeb.CityView do
   use ApiWeb, :view
 
   alias ApiWeb.CityView
+  alias ApiWeb.StateView
 
   @doc """
   Renders a list of cities
@@ -27,7 +28,8 @@ defmodule ApiWeb.CityView do
     %{
       id: city.id,
       name: city.name,
-      state_id: city.state_id
+      state_id: city.state_id,
+      state: render_one(city.state, StateView, "state.json")
     }
   end
 end

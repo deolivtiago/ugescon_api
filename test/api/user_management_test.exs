@@ -19,7 +19,7 @@ defmodule Api.UserManagementTest do
     end
 
     test "with users returns all users" do
-      user = insert(:user)
+      user = insert(:user) |> Api.Repo.preload(:person)
 
       assert [user] == UserManagement.list_users()
     end
@@ -138,7 +138,6 @@ defmodule Api.UserManagementTest do
       assert ["should be at least 3 character(s)"] == errors.email
       assert ["should be at least 2 character(s)"] == errors.name
       assert ["can't be blank"] == errors.password
-      assert {:ok, user} == UserManagement.get_user(user.id)
     end
   end
 

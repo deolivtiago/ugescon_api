@@ -11,4 +11,5 @@ defmodule Api.Factory do
   use Api.Factories.StateFactory
   use Api.Factories.CityFactory
   use Api.Factories.AccountFactory
+  use Api.Factories.EntryFactory
 end

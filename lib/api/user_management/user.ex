@@ -3,12 +3,14 @@ defmodule Api.UserManagement.User do
 
   import Ecto.Changeset
 
+  alias Api.Registry.Person
   alias Argon2
 
   schema "users" do
     field :email, :string
     field :name, :string
     field :password, :string, redact: true
+    has_one :person, Person
 
     timestamps()
   end
@@ -20,6 +22,7 @@ defmodule Api.UserManagement.User do
     |> validate_required([:email, :name, :password])
     |> unique_constraint(:id, name: :users_pkey)
     |> unique_constraint(:email)
+    |> cast_assoc(:person)
     |> validate_length(:email, min: 3, max: 128)
     |> update_change(:email, &String.downcase/1)
     |> validate_format(:email, ~r/@/)

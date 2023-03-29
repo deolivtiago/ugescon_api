@@ -8,5 +8,6 @@ defmodule Api.Location.State.Update do
     state
     |> State.changeset(attrs)
     |> Repo.update()
+    |> Repo.preload(:country)
   end
 end
