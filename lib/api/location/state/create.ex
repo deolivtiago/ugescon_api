@@ -8,6 +8,9 @@ defmodule Api.Location.State.Create do
     %State{}
     |> State.changeset(attrs)
     |> Repo.insert()
-    |> Repo.preload(:country)
+    |> case do
+      {:ok, state} -> {:ok, Repo.preload(state, :country)}
+      error -> error
+    end
   end
 end
