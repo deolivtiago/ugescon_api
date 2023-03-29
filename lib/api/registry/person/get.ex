@@ -7,6 +7,7 @@ defmodule Api.Registry.Person.Get do
   def call(id) do
     Person
     |> Repo.get!(id)
+    |> Repo.preload(address: [city: [state: :country]])
     |> then(&{:ok, &1})
   rescue
     _ ->

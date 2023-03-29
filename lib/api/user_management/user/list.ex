@@ -7,6 +7,6 @@ defmodule Api.UserManagement.User.List do
   def call do
     User
     |> Repo.all()
-    |> Repo.preload(:person)
+    |> Repo.preload(person: [address: [city: [state: :country]]])
   end
 end

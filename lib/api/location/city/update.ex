@@ -8,5 +8,6 @@ defmodule Api.Location.City.Update do
     city
     |> City.changeset(attrs)
     |> Repo.update()
+    |> Repo.preload(state: :country)
   end
 end

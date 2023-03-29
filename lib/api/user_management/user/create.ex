@@ -9,7 +9,7 @@ defmodule Api.UserManagement.User.Create do
     |> User.changeset(attrs)
     |> Repo.insert()
     |> case do
-      {:ok, user} -> {:ok, Repo.preload(user, :person)}
+      {:ok, user} -> {:ok, Repo.preload(user, person: [address: [city: [state: :country]]])}
       error -> error
     end
   end

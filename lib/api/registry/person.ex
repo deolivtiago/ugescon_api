@@ -4,6 +4,7 @@ defmodule Api.Registry.Person do
   import Ecto.Changeset
 
   alias Api.Accounting.Entry
+  alias Api.Registry.Address
   alias Api.UserManagement.User
 
   schema "persons" do
@@ -13,6 +14,7 @@ defmodule Api.Registry.Person do
     field :type, Ecto.Enum, values: [natural: 0, juridical: 1, other: 2]
     belongs_to :user, User
     has_many :entries, Entry
+    has_one :address, Address, on_replace: :update
 
     timestamps()
   end
@@ -25,6 +27,7 @@ defmodule Api.Registry.Person do
     |> unique_constraint(:id, name: :persons_pkey)
     |> assoc_constraint(:user)
     |> cast_assoc(:entries)
+    |> cast_assoc(:address)
     |> unique_constraint(:social_id)
     |> validate_length(:alias, max: 150)
     |> validate_length(:name, min: 2, max: 150)

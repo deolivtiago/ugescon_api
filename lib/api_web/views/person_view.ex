@@ -5,6 +5,7 @@ defmodule ApiWeb.PersonView do
   use ApiWeb, :view
 
   alias Api.Registry.Person
+  alias ApiWeb.AddressView
   alias ApiWeb.PersonView
 
   @doc """
@@ -30,7 +31,8 @@ defmodule ApiWeb.PersonView do
       type: Ecto.Enum.mappings(Person, :type)[person.type],
       name: person.name,
       alias: person.alias,
-      social_id: person.social_id
+      social_id: person.social_id,
+      address: render_one(person.address, AddressView, "address.json")
     }
   end
 end
