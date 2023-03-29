@@ -8,5 +8,9 @@ defmodule Api.UserManagement.User.Update do
     user
     |> User.changeset(attrs)
     |> Repo.update()
+    |> case do
+      {:ok, user} -> {:ok, Repo.preload(user, person: [address: [city: [state: :country]]])}
+      error -> error
+    end
   end
 end

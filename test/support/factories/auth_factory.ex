@@ -12,6 +12,7 @@ defmodule Api.Factories.AuthFactory do
         :user
         |> Factory.build_and_validate(%{email: "some@mail.com", password: "123456"})
         |> Factory.insert()
+        |> Api.Repo.preload(:person)
         |> Auth.generate_token()
       end
     end

@@ -32,6 +32,7 @@ defmodule ApiWeb.Auth.GuardianTest do
   defp build_user(_) do
     :user
     |> insert()
+    |> Api.Repo.preload(:person)
     |> then(&{:ok, user: &1})
   end
 end

@@ -4,6 +4,7 @@ defmodule ApiWeb.StateView do
   """
   use ApiWeb, :view
 
+  alias ApiWeb.CountryView
   alias ApiWeb.StateView
 
   @doc """
@@ -28,7 +29,7 @@ defmodule ApiWeb.StateView do
       id: state.id,
       name: state.name,
       code: state.code,
-      country_id: state.country_id
+      country: render_one(state.country, CountryView, "country.json")
     }
   end
 end

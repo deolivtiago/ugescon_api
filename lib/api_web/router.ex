@@ -20,8 +20,13 @@ defmodule ApiWeb.Router do
     pipe_through [:api, :auth]
 
     resources "/users", UserController, except: [:new, :edit]
-    resources "/persons", PersonController, except: [:new, :edit]
     resources "/accounts", AccountController, except: [:new, :edit]
+
+    resources "/persons", PersonController, except: [:new, :edit] do
+      resources "/addresses", AddressController, except: [:new, :edit]
+      resources "/entries", EntryController, except: [:new, :edit]
+      resources "/financial-statement", FinancialStatementController, only: [:index]
+    end
 
     resources "/countries", CountryController, except: [:new, :edit] do
       resources "/states", StateController, except: [:new, :edit] do

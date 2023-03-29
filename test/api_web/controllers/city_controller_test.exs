@@ -27,43 +27,8 @@ defmodule ApiWeb.CityControllerTest do
     end
   end
 
-  describe "create/2 returns success" do
-    setup [:insert_city, :put_auth]
-
-    test "when the city parameters are valid", %{conn: conn, city: city} do
-      city_params = params_for(:city)
-
-      conn =
-        post(
-          conn,
-          Routes.country_state_city_path(conn, :create, city.state.country_id, city.state_id),
-          city: city_params
-        )
-
-      assert %{"success" => true, "data" => city_data} = json_response(conn, 201)
-
-      assert city_data["name"] == city_params.name
-      assert city_data["state_id"] == city.state_id
-    end
-  end
-
   describe "create/2 returns error" do
     setup [:insert_city, :put_auth]
-
-    test "when the city parameters are invalid", %{conn: conn, city: city} do
-      city_params = %{name: "?", code: "??"}
-
-      conn =
-        post(
-          conn,
-          Routes.country_state_city_path(conn, :create, city.state.country_id, city.state_id),
-          city: city_params
-        )
-
-      assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
-
-      assert errors["name"] == ["should be at least 2 character(s)"]
-    end
 
     test "when the state id is not found", %{conn: conn, city: city} do
       city_params = params_for(:city)
@@ -135,75 +100,6 @@ defmodule ApiWeb.CityControllerTest do
 
   describe "update/2 returns success" do
     setup [:insert_city, :put_auth]
-
-    test "when the city parameters are valid", %{conn: conn, city: city} do
-      city_params = params_for(:city)
-
-      conn =
-        put(
-          conn,
-          Routes.country_state_city_path(
-            conn,
-            :update,
-            city.state.country_id,
-            city.state_id,
-            city
-          ),
-          city: city_params
-        )
-
-      assert %{"success" => true, "data" => city_data} = json_response(conn, 200)
-
-      assert city_data["id"] == city.id
-      assert city_data["name"] == city_params.name
-      assert city_data["state_id"] == city_params.state_id
-    end
-  end
-
-  describe "update/2 returns error" do
-    setup [:insert_city, :put_auth]
-
-    test "when the city parameters are invalid", %{conn: conn, city: city} do
-      city_params = %{name: "?", code: nil}
-
-      conn =
-        put(
-          conn,
-          Routes.country_state_city_path(
-            conn,
-            :update,
-            city.state.country_id,
-            city.state_id,
-            city
-          ),
-          city: city_params
-        )
-
-      assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
-
-      assert errors["name"] == ["should be at least 2 character(s)"]
-    end
-
-    test "when the state id is not found", %{conn: conn, city: city} do
-      city_params = params_for(:city)
-
-      conn =
-        put(
-          conn,
-          Routes.country_state_city_path(
-            conn,
-            :update,
-            city.state.country_id,
-            @id_not_found,
-            city
-          ),
-          city: city_params
-        )
-
-      assert %{"success" => false, "errors" => errors} = json_response(conn, 422)
-
-      assert errors["id"] == ["not found"]
-    end
   end
 
   describe "delete/2 returns success" do

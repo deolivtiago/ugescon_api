@@ -4,6 +4,7 @@ defmodule ApiWeb.UserView do
   """
   use ApiWeb, :view
 
+  alias ApiWeb.PersonView
   alias ApiWeb.UserView
 
   @doc """
@@ -27,7 +28,8 @@ defmodule ApiWeb.UserView do
     %{
       id: user.id,
       email: user.email,
-      name: user.name
+      name: user.name,
+      person: render_one(user.person, PersonView, "person.json")
     }
   end
 end

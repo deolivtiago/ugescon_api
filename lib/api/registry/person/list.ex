@@ -4,5 +4,9 @@ defmodule Api.Registry.Person.List do
   alias Api.Repo
 
   @doc false
-  def call, do: Repo.all(Person)
+  def call do
+    Person
+    |> Repo.all()
+    |> Repo.preload(address: [city: [state: :country]])
+  end
 end

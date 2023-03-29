@@ -7,6 +7,7 @@ defmodule Api.Location.City.Get do
   def call(id) do
     City
     |> Repo.get!(id)
+    |> Repo.preload(state: :country)
     |> then(&{:ok, &1})
   rescue
     _ ->

@@ -8,5 +8,9 @@ defmodule Api.Registry.Person.Create do
     %Person{}
     |> Person.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, person} -> {:ok, Repo.preload(person, address: [city: [state: :country]])}
+      error -> error
+    end
   end
 end

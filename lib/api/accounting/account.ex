@@ -3,11 +3,15 @@ defmodule Api.Accounting.Account do
 
   import Ecto.Changeset
 
+  alias Api.Accounting.Entry
+
   schema "accounts" do
     field :level, :integer
     field :code, :string
     field :name, :string
     field :type, Ecto.Enum, values: [debit: 0, credit: 1]
+    has_many :debit_entries, Entry, foreign_key: :debit_account_code, references: :code
+    has_many :credit_entries, Entry, foreign_key: :credit_account_code, references: :code
 
     timestamps()
   end
